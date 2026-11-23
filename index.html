@@ -235,7 +235,7 @@ items.forEach(item=>box.appendChild(el("p","• "+item)));
 parent.appendChild(box);
 }
 
-function analyzeIdea(){
+async function analyzeIdea(){
 const idea=document.getElementById("idea").value.trim();
 const city=document.getElementById("city").value;
 const budget=Number(document.getElementById("budget").value);
@@ -251,6 +251,16 @@ if(!Number.isFinite(budget)||budget<=0){
 out.appendChild(el("p","Введите корректный бюджет."));
 return;
 }
+  out.textContent = "ИИ анализирует идею...";
+
+try {
+  const result = await askAI(idea, city, budget);
+  out.textContent = result.answer || result.text || result.message || JSON.stringify(result);
+} catch (error) {
+  out.textContent = "Не удалось получить ответ ИИ. Попробуйте позже.";
+}
+
+return;
 
 const text=idea.toLowerCase();
 const matches=categories.filter(c=>
@@ -340,6 +350,29 @@ out.appendChild(el("div",
 "notice"));
 }
 
+
+  async function askAI(idea, city, budget) {
+  const response = await fetch(
+    "https://opportunity-radar-ai.u-aisana-011.workers.dev/",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idea: idea,
+        city: city,
+        budget: budget
+      })
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Ошибка сервера");
+  }
+
+  return await response.json();
+}
 function findIdeas(){
 const budget=Number(document.getElementById("searchBudget").value);
 const out=document.getElementById("ideasResults");
