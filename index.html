@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opportunity Radar</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0d0f14;
+    color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    width: 240px;
+    background: #151820;
+    border-right: 1px solid #292d38;
+    height: 100vh;
+    padding: 30px 20px;
+    position: fixed;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.menu {
+    padding: 14px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.menu.active {
+    background: #252a38;
+    color: white;
+}
+
+.main {
+    margin-left: 240px;
+    padding: 50px;
+    max-width: 1200px;
+}
+
+.subtitle {
+    color: #9ca3af;
+}
+
+.panel {
+    background: #171a22;
+    border: 1px solid #292d38;
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 35px;
+}
+
+label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    color: #a1a1aa;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    background: #101218;
+    color: white;
+    border: 1px solid #343946;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+button {
+    margin-top: 25px;
+    padding: 15px 25px;
+    background: #e5e7eb;
+    color: #111827;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #cbd5e1;
+}
+
+.card {
+    background: #171a22;
+    border: 1px solid #292d38;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+.card p {
+    color: #9ca3af;
+    line-height: 1.6;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #86efac;
+}
+
+#results {
+    margin-top: 35px;
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding: 20px;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    .menu {
+        display: inline-block;
+        margin-bottom: 0;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="logo">Opportunity Radar</div>
+
+    <div class="menu active">Обзор</div>
+    <div class="menu">Поиск возможностей</div>
+    <div class="menu">Анализ рынка</div>
+</aside>
+
+<main class="main">
+
+    <h1>Поиск бизнес-возможностей</h1>
+
+    <p class="subtitle">
+        Исследуйте направления бизнеса с учётом
+        доступного капитала и региона.
+    </p>
+
+    <section class="panel">
+
+        <h2>Параметры поиска</h2>
+
+        <label for="city">Город</label>
+        <select id="city">
+            <option>Шымкент</option>
+            <option>Алматы</option>
+            <option>Астана</option>
+            <option>Туркестан</option>
+        </select>
+
+        <label for="budget">Стартовый капитал (₸)</label>
+        <input
+            type="number"
+            id="budget"
+            value="500000"
+            min="1"
+        >
+
+        <label for="category">Направление</label>
+        <select id="category">
+            <option>Все направления</option>
+            <option>Торговля</option>
+            <option>Услуги</option>
+            <option>Онлайн-бизнес</option>
+        </select>
+
+        <button onclick="analyze()">
+            Найти возможности
+        </button>
+
+    </section>
+
+    <div id="results"></div>
+
+</main>
+
+<script>
+const ideas = [
+    {
+        name: "Нишевый интернет-магазин",
+        category: "Торговля",
+        cost: 250000,
+        risk: "Высокая конкуренция",
+        test: "Получить 10 предварительных заявок"
+    },
+    {
+        name: "Сервис мобильной уборки",
+        category: "Услуги",
+        cost: 180000,
+        risk: "Нестабильный спрос",
+        test: "Найти 5 потенциальных клиентов"
+    },
+    {
+        name: "Агентство цифрового контента",
+        category: "Онлайн-бизнес",
+        cost: 80000,
+        risk: "Сложность привлечения клиентов",
+        test: "Предложить услуги 20 компаниям"
+    },
+    {
+        name: "Продажа товаров для дома",
+        category: "Торговля",
+        cost: 400000,
+        risk: "Риск непроданных товаров",
+        test: "Собрать предварительные заказы"
+    }
+];
+
+function analyze() {
+    const city = document.getElementById("city").value;
+    const budget = Number(
+        document.getElementById("budget").value
+    );
+    const category = document.getElementById("category").value;
+    const results = document.getElementById("results");
+
+    results.innerHTML = "";
+
+    if (!Number.isFinite(budget) || budget <= 0) {
+        results.textContent = "Укажите корректный бюджет.";
+        return;
+    }
+
+    const filtered = ideas.filter(idea =>
+        idea.cost <= budget &&
+        (
+            category === "Все направления" ||
+            idea.category === category
+        )
+    );
+
+    const title = document.createElement("h2");
+    title.textContent = `Результаты поиска — ${city}`;
+    results.appendChild(title);
+
+    if (filtered.length === 0) {
+        const message = document.createElement("p");
+        message.textContent = "Подходящих вариантов пока нет.";
+        results.appendChild(message);
+        return;
+    }
+
+    filtered.forEach(idea => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const heading = document.createElement("h3");
+        heading.textContent = idea.name;
+
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent = idea.cost.toLocaleString("ru-RU") + " ₸";
+
+        const risk = document.createElement("p");
+        risk.textContent = "Основной риск: " + idea.risk;
+
+        const test = document.createElement("p");
+        test.textContent = "Проверка спроса: " + idea.test;
+
+        card.append(heading, price, risk, test);
+        results.appendChild(card);
+    });
+
+    const note = document.createElement("p");
+    note.className = "subtitle";
+    note.textContent =
+        "Демонстрационные данные. Бюджеты условные, " +
+        "анализ местного рынка пока не подключён.";
+
+    results.appendChild(note);
+}
+</script>
+
+</body>
+</html>
