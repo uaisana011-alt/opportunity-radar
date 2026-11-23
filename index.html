@@ -2,299 +2,226 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Opportunity Radar</title>
-
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    background: #0d0f14;
-    color: #f5f5f5;
-    font-family: Arial, sans-serif;
-}
-
-.sidebar {
-    width: 240px;
-    background: #151820;
-    border-right: 1px solid #292d38;
-    height: 100vh;
-    padding: 30px 20px;
-    position: fixed;
-}
-
-.logo {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 50px;
-}
-
-.menu {
-    padding: 14px;
-    color: #9ca3af;
-    margin-bottom: 10px;
-    border-radius: 8px;
-}
-
-.menu.active {
-    background: #252a38;
-    color: white;
-}
-
-.main {
-    margin-left: 240px;
-    padding: 50px;
-    max-width: 1200px;
-}
-
-.subtitle {
-    color: #9ca3af;
-}
-
-.panel {
-    background: #171a22;
-    border: 1px solid #292d38;
-    border-radius: 12px;
-    padding: 30px;
-    margin-top: 35px;
-}
-
-label {
-    display: block;
-    margin-top: 20px;
-    margin-bottom: 8px;
-    color: #a1a1aa;
-}
-
-input, select {
-    width: 100%;
-    padding: 14px;
-    background: #101218;
-    color: white;
-    border: 1px solid #343946;
-    border-radius: 8px;
-    font-size: 15px;
-}
-
-button {
-    margin-top: 25px;
-    padding: 15px 25px;
-    background: #e5e7eb;
-    color: #111827;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #cbd5e1;
-}
-
-.card {
-    background: #171a22;
-    border: 1px solid #292d38;
-    padding: 25px;
-    border-radius: 12px;
-    margin-top: 15px;
-}
-
-.card p {
-    color: #9ca3af;
-    line-height: 1.6;
-}
-
-.price {
-    font-size: 24px;
-    font-weight: bold;
-    color: #86efac;
-}
-
-#results {
-    margin-top: 35px;
-}
-
-@media (max-width: 700px) {
-    .sidebar {
-        position: static;
-        width: 100%;
-        height: auto;
-        padding: 20px;
-    }
-
-    .logo {
-        margin-bottom: 15px;
-    }
-
-    .menu {
-        display: inline-block;
-        margin-bottom: 0;
-    }
-
-    .main {
-        margin-left: 0;
-        padding: 20px;
-    }
-}
+*{box-sizing:border-box}
+body{margin:0;background:#0c1017;color:#edf1f7;font-family:Arial,sans-serif}
+header{padding:24px 7%;border-bottom:1px solid #293241;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:21px;font-weight:700;letter-spacing:-.5px}
+.tag{color:#92a4bb;font-size:12px}
+main{max-width:1050px;margin:55px auto;padding:0 22px}
+h1{font-size:clamp(30px,5vw,48px);letter-spacing:-1.5px;margin-bottom:12px}
+h2{font-size:22px}
+.sub{color:#98a7ba;line-height:1.7}
+.panel{background:#161d29;border:1px solid #2c3747;border-radius:14px;padding:28px;margin-top:25px}
+.tabs{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0}
+button{background:#dce6f4;color:#101722;border:0;padding:14px 22px;border-radius:8px;cursor:pointer;font-weight:700}
+button:hover{background:#b8cbe4}
+button.secondary{background:#253246;color:#e5edf8}
+button.active{background:#dce6f4;color:#101722}
+label{display:block;color:#b8c5d5;margin:18px 0 8px}
+input,select,textarea{width:100%;background:#0e1520;border:1px solid #39485c;border-radius:8px;padding:14px;color:white;font-size:15px}
+textarea{min-height:115px;resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:#192333;border:1px solid #344155;border-radius:12px;padding:23px;margin:15px 0}
+.card h3{margin-top:0}
+.money{color:#8ce2b2;font-size:23px;font-weight:bold}
+.muted{color:#a7b5c6;line-height:1.7}
+.notice{border-left:3px solid #e3b976;padding:12px 18px;background:#29251e;color:#e9d4ad;margin-top:20px;line-height:1.6}
+.hidden{display:none}
+footer{color:#8392a6;text-align:center;padding:35px;font-size:12px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}main{margin-top:30px}.panel{padding:18px}}
 </style>
 </head>
-
 <body>
 
-<aside class="sidebar">
-    <div class="logo">Opportunity Radar</div>
+<header>
+<div class="logo">Opportunity Radar</div>
+<div class="tag">Business Research Platform</div>
+</header>
 
-    <div class="menu active">Обзор</div>
-    <div class="menu">Поиск возможностей</div>
-    <div class="menu">Анализ рынка</div>
-</aside>
+<main>
+<h1>Найдите возможности для бизнеса.</h1>
+<p class="sub">Исследуйте идеи, оценивайте ограничения бюджета и проверяйте гипотезы до вложения денег.</p>
 
-<main class="main">
+<div class="tabs">
+<button id="tab1" class="active" onclick="showTab('search')">Поиск возможностей</button>
+<button id="tab2" class="secondary" onclick="showTab('review')">Анализ своей идеи</button>
+</div>
 
-    <h1>Поиск бизнес-возможностей</h1>
+<section id="search">
+<div class="panel">
+<h2>Параметры поиска</h2>
 
-    <p class="subtitle">
-        Исследуйте направления бизнеса с учётом
-        доступного капитала и региона.
-    </p>
+<div class="grid">
+<div>
+<label for="city">Город</label>
+<select id="city">
+<option>Шымкент</option>
+<option>Алматы</option>
+<option>Астана</option>
+<option>Туркестан</option>
+<option>Караганда</option>
+</select>
+</div>
 
-    <section class="panel">
+<div>
+<label for="budget">Стартовый капитал, ₸</label>
+<input id="budget" type="number" min="1" value="500000">
+</div>
+</div>
 
-        <h2>Параметры поиска</h2>
+<label for="category">Направление</label>
+<select id="category">
+<option>Все направления</option>
+<option>Торговля</option>
+<option>Услуги</option>
+<option>Онлайн-бизнес</option>
+<option>Образование</option>
+</select>
 
-        <label for="city">Город</label>
-        <select id="city">
-            <option>Шымкент</option>
-            <option>Алматы</option>
-            <option>Астана</option>
-            <option>Туркестан</option>
-        </select>
+<button style="margin-top:25px" onclick="findIdeas()">Найти возможности</button>
+</div>
+<div id="results"></div>
+</section>
 
-        <label for="budget">Стартовый капитал (₸)</label>
-        <input
-            type="number"
-            id="budget"
-            value="500000"
-            min="1"
-        >
+<section id="review" class="hidden">
+<div class="panel">
+<h2>Предварительный анализ идеи</h2>
+<p class="muted">Опишите бизнес, который хотите открыть.</p>
 
-        <label for="category">Направление</label>
-        <select id="category">
-            <option>Все направления</option>
-            <option>Торговля</option>
-            <option>Услуги</option>
-            <option>Онлайн-бизнес</option>
-        </select>
+<label for="idea">Ваша идея</label>
+<textarea id="idea" placeholder="Например: хочу открыть частную школу в Алматы"></textarea>
 
-        <button onclick="analyze()">
-            Найти возможности
-        </button>
+<label for="reviewBudget">Доступный бюджет, ₸</label>
+<input id="reviewBudget" type="number" min="1" value="500000">
 
-    </section>
-
-    <div id="results"></div>
+<button style="margin-top:25px" onclick="reviewIdea()">Проверить идею</button>
+</div>
+<div id="reviewResults"></div>
+</section>
 
 </main>
 
+<footer>
+Opportunity Radar — исследовательский прототип.
+Результаты не являются финансовой рекомендацией.
+</footer>
+
 <script>
-const ideas = [
-    {
-        name: "Нишевый интернет-магазин",
-        category: "Торговля",
-        cost: 250000,
-        risk: "Высокая конкуренция",
-        test: "Получить 10 предварительных заявок"
-    },
-    {
-        name: "Сервис мобильной уборки",
-        category: "Услуги",
-        cost: 180000,
-        risk: "Нестабильный спрос",
-        test: "Найти 5 потенциальных клиентов"
-    },
-    {
-        name: "Агентство цифрового контента",
-        category: "Онлайн-бизнес",
-        cost: 80000,
-        risk: "Сложность привлечения клиентов",
-        test: "Предложить услуги 20 компаниям"
-    },
-    {
-        name: "Продажа товаров для дома",
-        category: "Торговля",
-        cost: 400000,
-        risk: "Риск непроданных товаров",
-        test: "Собрать предварительные заказы"
-    }
+const ideas=[
+{name:"Нишевый интернет-магазин",category:"Торговля",cost:250000,risk:"Стоимость рекламы и конкуренция",test:"Получить 10 предварительных заявок"},
+{name:"Мобильная уборка",category:"Услуги",cost:180000,risk:"Нестабильный поток клиентов",test:"Найти 5 клиентов до покупки оборудования"},
+{name:"Создание контента для бизнеса",category:"Онлайн-бизнес",cost:80000,risk:"Сложность получения постоянных заказов",test:"Предложить услуги 20 компаниям"},
+{name:"Продажа товаров для дома",category:"Торговля",cost:400000,risk:"Непроданные товарные остатки",test:"Собрать предварительные заказы"},
+{name:"Частные занятия",category:"Образование",cost:50000,risk:"Поиск учеников",test:"Провести 3 пробных занятия"}
 ];
 
-function analyze() {
-    const city = document.getElementById("city").value;
-    const budget = Number(
-        document.getElementById("budget").value
-    );
-    const category = document.getElementById("category").value;
-    const results = document.getElementById("results");
+function showTab(tab){
+document.getElementById("search").classList.toggle("hidden",tab!=="search");
+document.getElementById("review").classList.toggle("hidden",tab!=="review");
+document.getElementById("tab1").className=tab==="search"?"active":"secondary";
+document.getElementById("tab2").className=tab==="review"?"active":"secondary";
+}
 
-    results.innerHTML = "";
+function makeElement(tag,text,className){
+const el=document.createElement(tag);
+el.textContent=text;
+if(className)el.className=className;
+return el;
+}
 
-    if (!Number.isFinite(budget) || budget <= 0) {
-        results.textContent = "Укажите корректный бюджет.";
-        return;
-    }
+function findIdeas(){
+const city=document.getElementById("city").value;
+const budget=Number(document.getElementById("budget").value);
+const category=document.getElementById("category").value;
+const out=document.getElementById("results");
+out.replaceChildren();
 
-    const filtered = ideas.filter(idea =>
-        idea.cost <= budget &&
-        (
-            category === "Все направления" ||
-            idea.category === category
-        )
-    );
+if(!Number.isFinite(budget)||budget<=0){
+out.appendChild(makeElement("p","Введите корректный бюджет."));
+return;
+}
 
-    const title = document.createElement("h2");
-    title.textContent = `Результаты поиска — ${city}`;
-    results.appendChild(title);
+const matches=ideas.filter(i=>
+i.cost<=budget&&(category==="Все направления"||i.category===category)
+);
 
-    if (filtered.length === 0) {
-        const message = document.createElement("p");
-        message.textContent = "Подходящих вариантов пока нет.";
-        results.appendChild(message);
-        return;
-    }
+out.appendChild(makeElement("h2","Возможности: "+city));
 
-    filtered.forEach(idea => {
-        const card = document.createElement("div");
-        card.className = "card";
+if(!matches.length){
+out.appendChild(makeElement("p","В демонстрационном списке подходящих вариантов нет.","muted"));
+}
 
-        const heading = document.createElement("h3");
-        heading.textContent = idea.name;
+matches.forEach(i=>{
+const card=document.createElement("div");
+card.className="card";
+card.appendChild(makeElement("h3",i.name));
+card.appendChild(makeElement("div",i.cost.toLocaleString("ru-RU")+" ₸","money"));
+card.appendChild(makeElement("p","Условный бюджет запуска","muted"));
+card.appendChild(makeElement("p","Риск: "+i.risk));
+card.appendChild(makeElement("p","Первый тест: "+i.test,"muted"));
+out.appendChild(card);
+});
 
-        const price = document.createElement("div");
-        price.className = "price";
-        price.textContent = idea.cost.toLocaleString("ru-RU") + " ₸";
+out.appendChild(makeElement("div",
+"Важно: суммы условные. Город пока не влияет на подбор. Конкуренты и рыночные цены не проверены.",
+"notice"));
+}
 
-        const risk = document.createElement("p");
-        risk.textContent = "Основной риск: " + idea.risk;
+function reviewIdea(){
+const idea=document.getElementById("idea").value.trim();
+const budget=Number(document.getElementById("reviewBudget").value);
+const out=document.getElementById("reviewResults");
+out.replaceChildren();
 
-        const test = document.createElement("p");
-        test.textContent = "Проверка спроса: " + idea.test;
+if(!idea){
+out.appendChild(makeElement("p","Сначала опишите свою идею."));
+return;
+}
 
-        card.append(heading, price, risk, test);
-        results.appendChild(card);
-    });
+if(!Number.isFinite(budget)||budget<=0){
+out.appendChild(makeElement("p","Введите корректный бюджет."));
+return;
+}
 
-    const note = document.createElement("p");
-    note.className = "subtitle";
-    note.textContent =
-        "Демонстрационные данные. Бюджеты условные, " +
-        "анализ местного рынка пока не подключён.";
+const text=idea.toLowerCase();
+let title="Недостаточно данных для оценки бюджета";
+let explanation="Для этой идеи пока нет проверенной сметы. Нужно определить формат бизнеса и основные расходы.";
+let test="Опишите целевого клиента и поговорите с 10 потенциальными покупателями.";
 
-    results.appendChild(note);
+if(text.includes("школ")||text.includes("университет")){
+title="Нужно уточнить формат образовательного бизнеса";
+explanation="Полноценное учебное заведение требует помещений, персонала и выполнения применимых требований. Без сметы нельзя подтвердить достаточность бюджета. Рассмотрите небольшие курсы или частные занятия как отдельную гипотезу.";
+test="Уточните возраст учеников, предметы и формат обучения. Проверьте интерес к пробным занятиям.";
+}
+else if(text.includes("кофе")||text.includes("кафе")){
+title="Проверьте расходы на помещение и оборудование";
+explanation="Для кофейни важны аренда, оборудование, закупки и постоянные расходы. По одному бюджету нельзя установить, возможен ли запуск.";
+test="Сравните несколько помещений и получите реальные предложения по оборудованию.";
+}
+else if(text.includes("магазин")||text.includes("товар")){
+title="Проверьте закупки и спрос";
+explanation="Главные ограничения могут быть связаны с закупкой товара, рекламой и непроданными остатками.";
+test="Проверьте спрос через предварительные заказы без крупной закупки.";
+}
+
+const card=document.createElement("div");
+card.className="card";
+card.appendChild(makeElement("h2","Предварительный разбор"));
+card.appendChild(makeElement("p","Идея: "+idea));
+card.appendChild(makeElement("p","Доступный бюджет: "+budget.toLocaleString("ru-RU")+" ₸"));
+card.appendChild(makeElement("h3",title));
+card.appendChild(makeElement("p",explanation,"muted"));
+card.appendChild(makeElement("h3","Как проверить спрос"));
+card.appendChild(makeElement("p",test,"muted"));
+out.appendChild(card);
+
+out.appendChild(makeElement("div",
+"Это анализ по простым правилам, а не AI-исследование. Программа не проверяет реальные цены, конкурентов или требования законодательства.",
+"notice"));
 }
 </script>
-
 </body>
 </html>
